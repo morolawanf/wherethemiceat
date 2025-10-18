@@ -1,0 +1,7 @@
+# Robots.txt for Where them ICE at? 🧊
+
+User-agent: *
+Allow: /
+
+Sitemap: https://your-domain.com/sitemap.xml
+
