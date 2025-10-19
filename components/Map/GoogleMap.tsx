@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppStore } from "@/store/useAppStore";
 import { MAP_STYLES, DEFAULT_MAP_ZOOM } from "@/lib/constants";
-import { Loader2, Maximize2, Minimize2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import type { Report } from "@/lib/types";
 import { renderToString } from "react-dom/server";
 import { BsSnow2 } from "react-icons/bs";
@@ -18,7 +18,7 @@ interface GoogleMapProps {
 /**
  * Google Maps component with custom ice theme
  */
-export function GoogleMap({ onMarkerClick, navigateToLocation, isFullscreen = false, onToggleFullscreen }: GoogleMapProps) {
+export function GoogleMap({ onMarkerClick, navigateToLocation, isFullscreen = false }: GoogleMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +31,6 @@ export function GoogleMap({ onMarkerClick, navigateToLocation, isFullscreen = fa
     addMarker,
     removeMarker,
     setUserMarker,
-    userMarker,
     markers,
   } = useAppStore();
 
@@ -90,7 +89,7 @@ export function GoogleMap({ onMarkerClick, navigateToLocation, isFullscreen = fa
         script.defer = true;
         
         // Create global callback
-        (window as any).initGoogleMap = () => {
+        (window as unknown as { initGoogleMap?: () => void }).initGoogleMap = () => {
           if (!mapRef.current) return;
           
           try {
@@ -166,7 +165,7 @@ export function GoogleMap({ onMarkerClick, navigateToLocation, isFullscreen = fa
     };
 
     initMap();
-  }, [setMapInstance, mapInstance, isLoading]);
+  }, [setMapInstance, mapInstance, isLoading, location]);
 
   // Note: Removed auto-centering behavior to allow map exploration
   // Users can click "Go to my location" button to center on their location
@@ -357,7 +356,7 @@ export function GoogleMap({ onMarkerClick, navigateToLocation, isFullscreen = fa
       };
       
       // Store the navigation function globally so it can be called from parent
-      (window as any).navigateToMapLocation = handleNavigate;
+      (window as unknown as { navigateToMapLocation?: (lat: number, lng: number) => void }).navigateToMapLocation = handleNavigate;
     }
   }, [mapInstance, navigateToLocation]);
 

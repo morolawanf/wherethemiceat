@@ -18,8 +18,7 @@ export function calculateInitialValidity(): Date {
  * Calculate new validity time after an upvote
  */
 export function calculateValidityAfterUpvote(
-  currentExpiry: Date,
-  upvoteCount: number
+  currentExpiry: Date
 ): Date {
   const now = new Date();
   const newExpiry = addMinutes(currentExpiry, UPVOTE_TIME_EXTENSION_MINUTES);
@@ -118,7 +117,6 @@ export function calculateProbability(upvotes: number, downvotes: number): number
  */
 export function getTimeRemainingProgress(expiryDate: Date | string): number {
   const expiry = typeof expiryDate === "string" ? new Date(expiryDate) : expiryDate;
-  const now = new Date();
   
   if (isPast(expiry)) {
     return 0;

@@ -81,7 +81,7 @@ function CreateReportForm({ onSuccess, onCancel }: { onSuccess: () => void; onCa
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Location Info */}
-      <div className="p-6 rounded-xl bg-ice-500/10 border border-ice-500/30">
+      <div className="p-6 rounded-xl bg-ice-500/20 border border-ice-500/30">
         <div className="flex items-start gap-4">
           <div className="p-3 rounded-lg bg-ice-500/20">
             <MapPin className="w-6 h-6 text-ice-400" />
@@ -108,7 +108,7 @@ function CreateReportForm({ onSuccess, onCancel }: { onSuccess: () => void; onCa
       </div>
 
       {/* Warning Message */}
-      <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30">
+      <div className="p-4 rounded-xl bg-yellow-500/20 border border-yellow-500/30">
         <div className="flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
           <div className="text-sm text-yellow-200">
@@ -124,7 +124,7 @@ function CreateReportForm({ onSuccess, onCancel }: { onSuccess: () => void; onCa
 
       {/* Error Message */}
       {error && (
-        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
+        <div className="p-4 rounded-xl bg-red-500/15 border border-red-500/30">
           <p className="text-red-400 text-sm">{error}</p>
         </div>
       )}
@@ -135,7 +135,7 @@ function CreateReportForm({ onSuccess, onCancel }: { onSuccess: () => void; onCa
           type="button"
           onClick={onCancel}
           disabled={isSubmitting}
-          className="flex-1 px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 px-6 py-3 rounded-xl bg-white/8 border border-white/10 text-white font-semibold hover:bg-white/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
         </button>
@@ -156,7 +156,7 @@ function CreateReportForm({ onSuccess, onCancel }: { onSuccess: () => void; onCa
       </div>
 
       {/* Privacy Note */}
-      <p className="text-xs text-gray-500 text-center">
+      <p className="text-xs text-gray-300 text-center">
         Your report is anonymous. We only store hashed identifiers to prevent spam.
       </p>
     </form>

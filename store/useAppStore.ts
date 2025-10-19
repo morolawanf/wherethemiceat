@@ -14,7 +14,7 @@ import { TEMPERATURE_LEVELS } from "@/lib/constants";
  * Centralized Zustand store for the entire application
  * Combines user, reports, UI, and map state without React Context
  */
-export const useAppStore = create<AppStore>((set, get) => ({
+export const useAppStore = create<AppStore>((set) => ({
   // ============================================
   // USER STATE
   // ============================================

@@ -6,7 +6,7 @@ import { useAppStore } from "@/store/useAppStore";
  * Hook to continuously refresh user location every 2 seconds
  */
 export function useLocationRefresh() {
-  const { setLocation, setLocationEnabled, location } = useAppStore();
+  const { setLocation, setLocationEnabled } = useAppStore();
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {

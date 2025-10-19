@@ -8,8 +8,7 @@ import { ActiveReportsList } from "@/components/Reports/ActiveReportsList";
 import { RadarVisualization } from "@/components/Radar/RadarVisualization";
 import { AdSpace } from "@/components/UI/AdSpace";
 import { useRealtimeReports } from "@/hooks/useRealtimeReports";
-import { useLocationRefresh } from "@/hooks/useLocationRefresh";
-import { MapIcon, RadarIcon, RefreshCw, AlertTriangle, Navigation, ArrowLeft } from "lucide-react";
+import { MapIcon, RadarIcon, RefreshCw, Navigation } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import NumberFlow from "@number-flow/react";
@@ -84,7 +83,7 @@ export default function RadarPage() {
       const userLocation = await getCurrentLocation();
       setLocation(userLocation);
       setLocationEnabled(true);
-    } catch (err) {
+    } catch {
       alert("Please enable location access to use this app");
     }
   };
@@ -336,7 +335,7 @@ export default function RadarPage() {
                 </div>
                 <h3 className="font-semibold text-white">Proximity Alerts</h3>
                 <p className="text-gray-400 text-sm">
-                  The closer you are to a report, the "colder" the interface becomes with visual temperature indicators.
+                  The closer you are to a report, the &quot;colder&quot; the interface becomes with visual temperature indicators.
                 </p>
               </div>
               <div className="space-y-2">

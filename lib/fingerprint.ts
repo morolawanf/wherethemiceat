@@ -53,7 +53,7 @@ export async function getHashedIP(ip: string): Promise<string> {
 }
 
 // Cache for user identity to avoid repeated IP requests
-let cachedIdentity: any = null;
+let cachedIdentity: { fingerprint: string; ip: string; fingerprintHash: string; ipHash: string } | null = null;
 let lastIdentityFetch = 0;
 const IDENTITY_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 

@@ -23,14 +23,14 @@ export function AdSpace({ size, className }: AdSpaceProps) {
   return (
     <GlassCard
       className={cn(
-        "flex items-center justify-center",
         sizeClasses[size],
-        className
+        className,
+        "flex items-center justify-center opacity-100",
       )}
       variant="flat"
     >
       <div className="text-white/40 text-sm font-mono">
-        Ad Space ({size})
+        {/* Ad Space ({size}) */}
       </div>
     </GlassCard>
   );

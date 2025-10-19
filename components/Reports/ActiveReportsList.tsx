@@ -2,15 +2,16 @@
 
 import { useAppStore } from "@/store/useAppStore";
 import { GlassCard } from "../UI/GlassCard";
-import { MapIcon, Clock, ThumbsUp, ThumbsDown, MessageCircle, Navigation } from "lucide-react";
+import { Report } from "@/lib/types";
+import { MapIcon, Clock, ThumbsUp, ThumbsDown, Navigation } from "lucide-react";
 import { motion } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 import NumberFlow from "@number-flow/react";
 import { calculateDistance } from "@/lib/geolocation";
 
 interface ActiveReportsListProps {
-  onReportClick?: (report: any) => void;
-  onNavigateToReport?: (report: any) => void;
+  onReportClick?: (report: Report) => void;
+  onNavigateToReport?: (report: Report) => void;
 }
 
 /**

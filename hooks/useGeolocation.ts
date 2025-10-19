@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getCurrentLocationWithFallback, watchLocation, stopWatchingLocation } from "@/lib/geolocation";
 import { useAppStore } from "@/store/useAppStore";
-import type { Location } from "@/lib/types";
 
 /**
  * Hook to get and watch user's geolocation
@@ -36,8 +35,8 @@ export function useGeolocation(options?: { watch?: boolean; autoRequest?: boolea
             }
           );
         }
-      } catch (err: any) {
-        setError(err.message || "Failed to get location");
+      } catch (err: unknown) {
+        setError((err as Error).message || "Failed to get location");
         setLocationEnabled(false);
       } finally {
         setIsLoading(false);

@@ -1,9 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { PixelBlast } from "./Animations/PixelBlast";
-import { useAppStore } from "@/store/useAppStore";
-import { getTemperatureDescription } from "@/lib/temperature";
 import Link from "next/link";
 import { RadarIcon, MapIcon } from "lucide-react";
 
@@ -11,7 +7,6 @@ import { RadarIcon, MapIcon } from "lucide-react";
  * Header component with pixel blast background and title
  */
 export function Header() {
-  const temperature = useAppStore((state) => state.temperature);
 
   return (
     <header className="relative w-full h-20 overflow-hidden bg-gradient-to-b from-[#1e1e2e]/90 to-transparent backdrop-blur-md border-b border-white/10">

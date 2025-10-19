@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
 
     // Test database connection
     try {
-      const { data: testData, error: testError } = await supabase
+      const { error: testError } = await supabase
         .from("reports")
         .select("id")
         .limit(1);

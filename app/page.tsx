@@ -17,7 +17,7 @@ import NumberFlow from "@number-flow/react";
 export default function HomePage() {
   const router = useRouter();
   const { reports, location, setLocation, setLocationEnabled } = useAppStore();
-  const [nearestReport, setNearestReport] = useState<{
+  const [, setNearestReport] = useState<{
     distance: number;
     bearing: number;
   } | null>(null);
@@ -79,7 +79,7 @@ export default function HomePage() {
       const userLocation = await getCurrentLocation();
       setLocation(userLocation);
       setLocationEnabled(true);
-    } catch (err) {
+    } catch {
       alert("Please enable location access to use this app");
     }
   };
@@ -146,7 +146,7 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Anonymous, real-time reporting of ICE agent locations. Stay informed, stay safe.
+            Anonymous, real-time reporting of ICE agent locations.
             <br />
             <span className="text-ice-400 font-semibold">No accounts. No tracking. No data collection.</span>
           </motion.p>
@@ -211,7 +211,7 @@ export default function HomePage() {
             </div>
             <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-4">Real-time Alerts</h3>
             <p className="text-gray-400 text-sm sm:text-base">
-              Get instant proximity alerts as you move. The closer you are, the "colder" the interface becomes.
+              Get instant proximity alerts as you move. The closer you are, the &quot;colder&quot; the interface becomes.
             </p>
           </GlassCard>
 
@@ -221,7 +221,7 @@ export default function HomePage() {
             </div>
             <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-4">Community Driven</h3>
             <p className="text-gray-400 text-sm sm:text-base">
-              Reports are validated by the community through upvotes and downvotes. Help keep everyone safe.
+              Reports are validated by the community through upvotes and downvotes.
             </p>
           </GlassCard>
         </motion.div>

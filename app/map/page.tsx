@@ -13,10 +13,10 @@ import { useGeolocation } from "@/hooks/useGeolocation";
 import { useRealtimeReports } from "@/hooks/useRealtimeReports";
 import { useLocationRefresh } from "@/hooks/useLocationRefresh";
 import { useProximityCalculator } from "@/hooks/useProximityCalculator";
-import { MapIcon, AlertCircle, RadarIcon, Navigation } from "lucide-react";
+import { AlertCircle, Navigation } from "lucide-react";
+import { Report, ReportWithDistance } from "@/lib/types";
 import { motion } from "framer-motion";
 import NumberFlow from "@number-flow/react";
-import Link from "next/link";
 import { IPApiMonitor } from "@/components/UI/IPApiMonitor";
 
 /**
@@ -27,7 +27,6 @@ export default function MapPage() {
     location,
     identity,
     setIdentity,
-    reports,
     temperature,
     modal,
     openModal,
@@ -37,7 +36,7 @@ export default function MapPage() {
     refetchReports,
   } = useAppStore();
 
-  const [nearbyReports, setNearbyReports] = useState<any[]>([]);
+  const [nearbyReports] = useState<ReportWithDistance[]>([]);
   const [showNearbyModal, setShowNearbyModal] = useState(false);
   const [isMapFullscreen, setIsMapFullscreen] = useState(false);
 
@@ -70,10 +69,10 @@ export default function MapPage() {
     const lat = urlParams.get('lat');
     const lng = urlParams.get('lng');
     
-    if (lat && lng && (window as any).navigateToMapLocation) {
+    if (lat && lng && (window as unknown as { navigateToMapLocation?: (lat: number, lng: number) => void }).navigateToMapLocation) {
       // Small delay to ensure map is ready
       setTimeout(() => {
-        (window as any).navigateToMapLocation(parseFloat(lat), parseFloat(lng));
+        ((window as unknown as { navigateToMapLocation: (lat: number, lng: number) => void }).navigateToMapLocation)(parseFloat(lat), parseFloat(lng));
       }, 1000);
     }
   }, []);
@@ -100,7 +99,7 @@ export default function MapPage() {
         const userLocation = await import("@/lib/geolocation").then(m => m.getCurrentLocationWithFallback());
         setLocation(userLocation);
         setLocationEnabled(true);
-      } catch (err) {
+      } catch {
         alert("Unable to determine your location. Please check your location settings or try again.");
         return;
       }
@@ -124,10 +123,6 @@ export default function MapPage() {
     await refetchReports();
   };
 
-  // Handle upvote nearby report
-  const handleUpvoteNearby = () => {
-    setShowNearbyModal(false);
-  };
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-[#0a0a1e] via-[#1a1a3e] to-[#0f0f2a]">
@@ -145,8 +140,6 @@ export default function MapPage() {
       <div className="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] gap-2 lg:gap-4 p-2 lg:p-4">
         {/* Left Sidebar - Ad Space */}
         <div className="w-full lg:w-64 xl:w-64 flex-shrink-0 space-y-4">
-          <AdSpace size="sidebar" />
-          
           {/* Temperature Indicator */}
           <motion.div
             className={`p-4 rounded-xl backdrop-blur-md border ${
@@ -238,8 +231,8 @@ export default function MapPage() {
             <GlassCard 
               className="p-4 hover:bg-white/10 transition-all cursor-pointer"
               onClick={() => {
-                if (location && (window as any).navigateToMapLocation) {
-                  (window as any).navigateToMapLocation(location.latitude, location.longitude);
+                if (location && (window as unknown as { navigateToMapLocation?: (lat: number, lng: number) => void }).navigateToMapLocation) {
+                  ((window as unknown as { navigateToMapLocation: (lat: number, lng: number) => void }).navigateToMapLocation)(location.latitude, location.longitude);
                 }
               }}
             >
@@ -249,13 +242,15 @@ export default function MapPage() {
               </div>
             </GlassCard>
           </motion.div>
+          <AdSpace size="sidebar" />
+          
         </div>
 
         {/* Main Map Area */}
         <div className={`flex-1 relative min-h-[400px] sm:min-h-[500px] lg:min-h-[500px] xl:min-h-[600px] ${isMapFullscreen ? 'hidden' : ''}`}>
           <GoogleMap
             onMarkerClick={(report) => openModal("view-report", report)}
-            navigateToLocation={(lat, lng) => {
+            navigateToLocation={() => {
               // Navigation is handled by the GoogleMap component internally
             }}
             isFullscreen={isMapFullscreen}
@@ -285,8 +280,8 @@ export default function MapPage() {
             onReportClick={(report) => openModal("view-report", report)}
             onNavigateToReport={(report) => {
               // Navigate to the report location on the map
-              if ((window as any).navigateToMapLocation) {
-                (window as any).navigateToMapLocation(report.latitude, report.longitude);
+              if ((window as unknown as { navigateToMapLocation?: (lat: number, lng: number) => void }).navigateToMapLocation) {
+                ((window as unknown as { navigateToMapLocation: (lat: number, lng: number) => void }).navigateToMapLocation)(report.latitude, report.longitude);
               }
             }}
           />
@@ -305,7 +300,7 @@ export default function MapPage() {
       {modal.isOpen && modal.type && modal.type !== "nearby-reports" && (
         <ReportModal
           type={modal.type as "create-report" | "view-report"}
-          report={modal.data as any}
+          report={modal.data as Report | null}
           onClose={closeModal}
           onReportCreated={handleReportCreated}
         />
@@ -334,7 +329,7 @@ export default function MapPage() {
       {isMapFullscreen && (
         <GoogleMap
           onMarkerClick={(report) => openModal("view-report", report)}
-          navigateToLocation={(lat, lng) => {
+          navigateToLocation={() => {
             // Navigation is handled by the GoogleMap component internally
           }}
           isFullscreen={isMapFullscreen}

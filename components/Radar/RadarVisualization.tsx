@@ -2,14 +2,14 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useAppStore } from "@/store/useAppStore";
+import { Report } from "@/lib/types";
 import { motion } from "framer-motion";
-import { formatDistanceToNow } from "date-fns";
 
 interface RadarPoint {
   id: string;
   distance: number;
   bearing: number;
-  report: any;
+  report: Report;
   x: number;
   y: number;
 }
@@ -20,8 +20,7 @@ interface RadarPoint {
 export function RadarVisualization() {
   const { location, reports } = useAppStore();
   const [radarPoints, setRadarPoints] = useState<RadarPoint[]>([]);
-  const [isScanning, setIsScanning] = useState(false);
-  const radarRef = useRef<HTMLDivElement>(null);
+  const [, setIsScanning] = useState(false);
   const scanLineRef = useRef<HTMLDivElement>(null);
 
   // Convert kilometers to meters (10 km = 10000 meters)
@@ -73,7 +72,7 @@ export function RadarVisualization() {
     });
 
     setRadarPoints(points);
-  }, [location, reports]);
+  }, [location, reports, RADAR_RADIUS_METERS]);
 
   // Scanning animation
   useEffect(() => {
@@ -109,7 +108,7 @@ export function RadarVisualization() {
     const x =
       Math.cos(lat1Rad) * Math.sin(lat2Rad) -
       Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(dLon);
-    let bearing = (Math.atan2(y, x) * 180) / Math.PI;
+    const bearing = (Math.atan2(y, x) * 180) / Math.PI;
     return (bearing + 360) % 360;
   }
 
@@ -159,7 +158,7 @@ export function RadarVisualization() {
 
         {/* Distance Labels - Every 1km from 1km to 10km */}
         <div className="absolute inset-0 pointer-events-none">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((km, index) => {
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((km) => {
             const radius = km / 10; // Convert km to radius
             return (
               <div

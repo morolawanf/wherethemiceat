@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAppStore } from "@/store/useAppStore";
 import type { Report } from "@/lib/types";
@@ -12,7 +12,7 @@ export function useRealtimeReports() {
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch reports function
-  const fetchReports = async () => {
+  const fetchReports = useCallback(async () => {
     try {
       const response = await fetch("/api/reports");
       const data = await response.json();
@@ -22,13 +22,13 @@ export function useRealtimeReports() {
     } catch (error) {
       console.error("Failed to fetch reports:", error);
     }
-  };
+  }, [setReports]);
 
   // Fetch initial reports on mount
   useEffect(() => {
     console.log("Fetching initial reports...");
     fetchReports();
-  }, [setReports]);
+  }, [setReports, fetchReports]);
 
   // Set up 10-second polling as fallback
   useEffect(() => {
@@ -42,7 +42,7 @@ export function useRealtimeReports() {
         clearInterval(pollingIntervalRef.current);
       }
     };
-  }, []);
+  }, [fetchReports]);
 
   useEffect(() => {
     // Subscribe to reports table changes
@@ -107,7 +107,7 @@ export function useRealtimeReports() {
           table: "votes",
         },
         async (payload) => {
-          const vote = payload.new as any;
+          const vote = payload.new as { report_id: string };
           // Fetch updated report with new vote counts
           const { data: report } = await supabase
             .from("reports")
@@ -128,7 +128,7 @@ export function useRealtimeReports() {
           table: "votes",
         },
         async (payload) => {
-          const vote = payload.old as any;
+          const vote = payload.old as { report_id: string };
           // Fetch updated report with new vote counts
           const { data: report } = await supabase
             .from("reports")
