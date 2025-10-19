@@ -125,7 +125,7 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <div className="relative z-10 max-w-7xl mx-auto px-8 pt-20 pb-32">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 pt-20 pb-32">
         <div className="text-center mb-20">
           <motion.h1
             className="text-4xl sm:text-5xl md:text-8xl font-bold text-white mb-8"
