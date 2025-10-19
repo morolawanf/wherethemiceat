@@ -21,18 +21,14 @@ export function AdSpace({ size, className }: AdSpaceProps) {
   };
 
   return (
-    <GlassCard
+    <div
       className={cn(
-        sizeClasses[size],
+        "opacity-0 pointer-events-none",
         className,
-        "flex items-center justify-center opacity-100",
       )}
-      variant="flat"
     >
-      <div className="text-white/40 text-sm font-mono">
-        {/* Ad Space ({size}) */}
-      </div>
-    </GlassCard>
+      {/* Ad Space ({size}) - Invisible */}
+    </div>
   );
 }
 

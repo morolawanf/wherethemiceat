@@ -173,7 +173,7 @@ export const COMMENT_COOLDOWN_MS = 5000; // 5 seconds
  * 2. ipapi.co (first fallback, free per unique IP)
  * 3. ipgeolocation.io (final fallback, requires API keys, round robin)
  */
-export const ENABLE_IPGEOLOCATION_FALLBACK = true;
+export const ENABLE_IPGEOLOCATION_FALLBACK = false;
 
 /** Maximum requests per IP API key before rotating to next one */
 export const MAX_REQUESTS_PER_IP_KEY = 900;
